@@ -79,7 +79,10 @@ public class PostFragment extends Fragment
         public void onReceive(final Context context, final Intent intent) {
             final NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
             builder.build();
-            Toast.makeText(context, "Finished downloading", Toast.LENGTH_LONG).show();
+            //Toast.makeText(context, "Finished downloading", Toast.LENGTH_LONG).show();
+            Snackbar.make(mRootView,
+                    R.string.post_download_finished, Snackbar.LENGTH_LONG)
+                    .show();
         }
     };
 
@@ -406,7 +409,8 @@ public class PostFragment extends Fragment
             final DownloadManager.Request request = new DownloadManager
                     .Request(Uri.parse(a.getAttachmentUrl()))
                     .setAllowedOverRoaming(false)
-                    .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS + "/XDA One/", a.getFileName());
+                    .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS + "/XDA One/", a.getFileName())
+                    .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
             manager.enqueue(request);
         }
     }
