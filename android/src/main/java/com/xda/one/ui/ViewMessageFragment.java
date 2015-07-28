@@ -9,14 +9,12 @@ import com.xda.one.event.message.MessageDeletedEvent;
 import com.xda.one.model.augmented.AugmentedMessage;
 import com.xda.one.parser.TextDataStructure;
 
-import com.xda.one.util.CompatUtils;
 import com.xda.one.util.SectionUtils;
 import com.xda.one.util.Utils;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -138,15 +136,6 @@ public class ViewMessageFragment extends Fragment {
         final FloatingActionButton button = (FloatingActionButton) view
                 .findViewById(R.id.view_message_fragment_floating_reply_button);
         button.setOnClickListener(new CreateReplyListener());
-        /*
-        if (CompatUtils.hasLollipop()) {
-            final Drawable drawable = getResources().getDrawable(R.drawable.fab_background);
-            button.setBackground(drawable);
-        } else {
-            final int color = getResources().getColor(R.color.fab_color);
-            button.setBackgroundColor(color);
-        }
-        */
     }
 
     @Override

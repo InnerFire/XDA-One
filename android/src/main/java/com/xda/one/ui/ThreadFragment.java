@@ -293,15 +293,6 @@ public class ThreadFragment extends Fragment implements BackPressedListener {
         }
 
         button.setOnClickListener(new CreateThreadListener());
-        /*
-        if (CompatUtils.hasLollipop()) {
-            final Drawable drawable = getResources().getDrawable(R.drawable.fab_background);
-            CompatUtils.setBackground(button, drawable);
-        } else {
-            final int color = getResources().getColor(R.color.fab_color);
-            button.setBackgroundColor(color);
-        }
-        */
     }
 
     private void setupActionBar() {

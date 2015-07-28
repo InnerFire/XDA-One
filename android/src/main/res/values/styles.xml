@@ -19,9 +19,8 @@
 
     <!-- Intermediary theme for NewsReader -->
     <style name="Theme.One.NewsReader.Base" parent="FrameworkRoot.Theme">
-  </style>
+    </style>
 
-  <!-- Session Details -->
     <style name="Theme.One.NewsReader" parent="Theme.One.NewsReader.Base" />
 
     <style name="Theme.One.ThreadTextAppearanceSmall" parent="TextAppearance.AppCompat.Small">

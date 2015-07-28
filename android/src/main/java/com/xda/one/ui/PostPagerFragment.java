@@ -41,7 +41,6 @@ import com.xda.one.model.augmented.AugmentedPost;
 import com.xda.one.model.augmented.AugmentedUnifiedThread;
 import com.xda.one.ui.helper.QuickReturnHelper;
 import com.xda.one.util.AccountUtils;
-import com.xda.one.util.CompatUtils;
 import com.xda.one.util.UIUtils;
 
 import java.util.ArrayList;
@@ -270,15 +269,6 @@ public class PostPagerFragment extends Fragment implements PostFragment.Callback
         final FloatingActionButton button = (FloatingActionButton) view
                 .findViewById(R.id.post_pager_fragment_floating_reply_button);
         button.setOnClickListener(new CreatePostListener());
-        /*
-        if (CompatUtils.hasLollipop()) {
-            final Drawable drawable = getResources().getDrawable(R.drawable.fab_background);
-            button.setBackground(drawable);
-        } else {
-            final int color = getResources().getColor(R.color.fab_color);
-            button.setBackgroundColor(color);
-        }
-        */
 
         mThreadClient.getBus().register(mEventHandler);
     }
