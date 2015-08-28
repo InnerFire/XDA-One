@@ -1,5 +1,33 @@
 package com.xda.one.ui;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.DownloadManager;
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Environment;
+import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.Loader;
+import android.support.v4.view.ViewCompat;
+import android.support.v7.view.ActionMode;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.XDALinerLayoutManager;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
+
 import com.xda.one.R;
 import com.xda.one.api.inteface.PostClient;
 import com.xda.one.api.misc.Consumer;
@@ -18,33 +46,6 @@ import com.xda.one.ui.helper.CancellableCallbackHelper;
 import com.xda.one.ui.listener.AvatarClickListener;
 import com.xda.one.util.UIUtils;
 import com.xda.one.util.Utils;
-
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.DownloadManager;
-import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Environment;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.Loader;
-import android.support.v4.view.ViewCompat;
-import android.support.v7.view.ActionMode;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.XDALinerLayoutManager;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +79,10 @@ public class PostFragment extends Fragment
         public void onReceive(final Context context, final Intent intent) {
             final NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
             builder.build();
-            Toast.makeText(context, "Finished downloading", Toast.LENGTH_LONG).show();
+            //Toast.makeText(context, "Finished downloading", Toast.LENGTH_LONG).show();
+            Snackbar.make(mRootView,
+                    R.string.post_download_finished, Snackbar.LENGTH_LONG)
+                    .show();
         }
     };
 
@@ -99,6 +103,8 @@ public class PostFragment extends Fragment
     private ResponsePostContainer mContainerArgument;
 
     private View mEmptyView;
+
+    private View mRootView;
 
     public static PostFragment getInstance(final UnifiedThread unifiedThread, final int page) {
         final Bundle bundle = new Bundle();
@@ -222,8 +228,10 @@ public class PostFragment extends Fragment
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
-            final Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.post_fragment, container, false);
+                             final Bundle savedInstanceState) {
+        mRootView =  inflater.inflate(R.layout.post_fragment, container, false);
+
+        return mRootView;
     }
 
     @Override
@@ -300,7 +308,7 @@ public class PostFragment extends Fragment
 
     @Override
     public void onLoadFinished(final Loader<AugmentedPostContainer> loader,
-            final AugmentedPostContainer container) {
+                               final AugmentedPostContainer container) {
         if (container == null) {
             onItemsReceived(null);
         } else {
@@ -322,6 +330,8 @@ public class PostFragment extends Fragment
         UIUtils.updateEmptyViewState(getView(), mRecyclerView, data.size());
         mAdapter.addAll(data);
 
+
+
         // Scroll to the relevant position in the list
         if (mScrollToItem == SCROLL_TO_LAST_LIST_ITEM) {
             mRecyclerView.scrollToPosition(mAdapter.getItemCount() - 1);
@@ -339,7 +349,9 @@ public class PostFragment extends Fragment
         mPostClient.toggleThanksAsync(post, new Consumer<Result>() {
             @Override
             public void run(Result result) {
-                Toast.makeText(getActivity(), "Thanks toggled", Toast.LENGTH_LONG).show();
+                Snackbar.make(mRootView,
+                        R.string.thanks_toggle, Snackbar.LENGTH_SHORT)
+                        .show();
                 mAdapter.notifyItemChanged(position);
             }
         });
@@ -374,17 +386,17 @@ public class PostFragment extends Fragment
         mRecyclerView.scrollToPosition(data.getIndex());
     }
 
-    public static interface Callback {
+    public interface Callback {
 
-        public void quotePost(final AugmentedPost... post);
+        void quotePost(final AugmentedPost... post);
 
-        public void switchToFragment(final ResponsePostContainer container);
+        void switchToFragment(final ResponsePostContainer container);
 
-        public void setQuickReturnListener(final RecyclerView recyclerView, final int page);
+        void setQuickReturnListener(final RecyclerView recyclerView, final int page);
 
-        public void postPaddingToQuickReturn(final View content);
+        void postPaddingToQuickReturn(final View content);
 
-        public void onPageLoaded(final ResponseUnifiedThread thread);
+        void onPageLoaded(final ResponseUnifiedThread thread);
     }
 
     private class DownloadButtonClickListener implements View.OnClickListener {
@@ -397,7 +409,8 @@ public class PostFragment extends Fragment
             final DownloadManager.Request request = new DownloadManager
                     .Request(Uri.parse(a.getAttachmentUrl()))
                     .setAllowedOverRoaming(false)
-                    .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS + "/XDA One/", a.getFileName());
+                    .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS + "/XDA One/", a.getFileName())
+                    .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
             manager.enqueue(request);
         }
     }

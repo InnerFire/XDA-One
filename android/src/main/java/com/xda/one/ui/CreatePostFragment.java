@@ -17,9 +17,11 @@ import com.xda.one.util.PostUtils;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -131,7 +133,7 @@ public class CreatePostFragment extends DialogFragment {
         });
         sendButton.setEnabled(false);
 
-        mMessageEditText = (EditText) view.findViewById(R.id.create_post_dialog_fragment_message);
+        mMessageEditText = (EditText) view.findViewById(R.id.create_post_fragment_content);
         mMessageEditText.addTextChangedListener(new NonEmptyTextViewListener(sendButton));
 
         if (mPosts != null && mPosts.length > 0) {
@@ -162,6 +164,21 @@ public class CreatePostFragment extends DialogFragment {
             public void onClick(View view) {
                 mSelectEmoticonFragment.setTargetFragment(holder, 101);
                 mSelectEmoticonFragment.show(getFragmentManager(), "Select Emoticon");
+            }
+        });
+
+        getDialog().setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                if (getDialog() == null)
+                    return;
+
+                DisplayMetrics metrics = getActivity().getResources().getDisplayMetrics();
+
+                int dialogWidth = metrics.widthPixels;
+                int dialogHeight = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+                getDialog().getWindow().setLayout(dialogWidth, dialogHeight);
             }
         });
 

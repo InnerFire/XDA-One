@@ -1,8 +1,5 @@
 package com.xda.one.ui;
 
-import com.xda.one.R;
-import com.xda.one.util.UIUtils;
-
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,7 +19,13 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.SearchView;
 
+import com.xda.one.R;
+import com.xda.one.util.CompatUtils;
+import com.xda.one.util.UIUtils;
+
 public class SearchFragment extends Fragment {
+
+    private ActionBar actionBar;
 
     private WebView mWebView;
 
@@ -55,9 +58,13 @@ public class SearchFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
 
-        final ActionBar actionBar = UIUtils.getSupportActionBar(getActivity());
+        actionBar = UIUtils.getSupportActionBar(getActivity());
         actionBar.setTitle(R.string.search);
         actionBar.setSubtitle(null);
+
+        if (CompatUtils.hasLollipop()) {
+            actionBar.setElevation(getResources().getDimension(R.dimen.toolbar_elevation));
+        }
 
         final WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);
@@ -90,6 +97,16 @@ public class SearchFragment extends Fragment {
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        // destroy action mode
+        if (CompatUtils.hasLollipop()) {
+            actionBar.setElevation(0);
+        }
+    }
+
+    @Override
     public void onSaveInstanceState(final Bundle outState) {
         super.onSaveInstanceState(outState);
 
@@ -104,7 +121,9 @@ public class SearchFragment extends Fragment {
 
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(mSearchMenuItem);
         final SearchQueryListener listener = new SearchQueryListener();
+        searchView.setQueryHint(getResources().getString(R.string.search_xda_title));
         searchView.setOnQueryTextListener(listener);
+        searchView.onActionViewExpanded();
 
         // TODO - stop this from constantly happening when you go to a item and then come back
         searchView.post(new Runnable() {

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/settings_general_title" >
+    <CheckBoxPreference
+        android:key="pref_double_exit"
+        android:title="@string/pref_double_tap_title"
+        android:summary="@string/pref_double_tap_desc"
+        android:defaultValue="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/settings_post_title" >
+        <CheckBoxPreference
+            android:key="pref_image_attachments_wifi"
+            android:title="@string/pref_image_attachments_wifi_title"
+            android:summary="@string/pref_image_attachments_wifi_desc"
+            android:defaultValue="false" />
+
+        <EditTextPreference
+            android:key="pref_post_signature"
+            android:title="@string/pref_signature_title"
+            android:summary="@string/pref_signature_desc"
+            android:defaultValue="" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

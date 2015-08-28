@@ -7,7 +7,9 @@ import com.xda.one.event.thread.ThreadSubscriptionChangingFailedEvent;
 import com.xda.one.model.augmented.AugmentedUnifiedThread;
 import com.xda.one.ui.ThreadAdapter;
 
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
 import android.widget.Toast;
 
 public class ThreadEventHelper {
@@ -16,10 +18,13 @@ public class ThreadEventHelper {
 
     private ThreadAdapter mAdapter;
 
+    private View mRootView;
+
     public ThreadEventHelper(final FragmentActivity activity,
-            final ThreadAdapter adapter) {
+            final ThreadAdapter adapter, View view) {
         mActivity = activity;
         mAdapter = adapter;
+        mRootView = view;
     }
 
     @Subscribe
@@ -28,11 +33,17 @@ public class ThreadEventHelper {
         mActivity.supportInvalidateOptionsMenu();
 
         if (event.isNowSubscribed) {
-            Toast.makeText(mActivity, R.string.thread_subscription_subscribed,
-                    Toast.LENGTH_LONG).show();
+            //Toast.makeText(mActivity, R.string.thread_subscription_subscribed,
+             //       Toast.LENGTH_LONG).show();
+            Snackbar.make(mRootView,
+                    R.string.thread_subscription_subscribed, Snackbar.LENGTH_SHORT)
+                    .show();
         } else {
-            Toast.makeText(mActivity, R.string.thread_subscription_unsubscribed,
-                    Toast.LENGTH_LONG).show();
+            //Toast.makeText(mActivity, R.string.thread_subscription_unsubscribed,
+            //        Toast.LENGTH_LONG).show();
+            Snackbar.make(mRootView,
+                    R.string.thread_subscription_unsubscribed, Snackbar.LENGTH_SHORT)
+                    .show();
         }
 
         // We would need to update the state of the subscribe button now

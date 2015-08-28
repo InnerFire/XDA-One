@@ -1,16 +1,5 @@
 package com.xda.one.ui;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-
-import com.xda.one.R;
-import com.xda.one.api.misc.Consumer;
-import com.xda.one.model.misc.ForumType;
-import com.xda.one.ui.helper.UrlParseHelper;
-import com.xda.one.util.AccountUtils;
-import com.xda.one.util.FragmentUtils;
-import com.xda.one.util.OneApplication;
-
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -19,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
@@ -27,11 +17,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-// Add New Relic Reporting
-// import com.newrelic.agent.android.NewRelic;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.xda.one.R;
+import com.xda.one.api.misc.Consumer;
+import com.xda.one.model.misc.ForumType;
+import com.xda.one.ui.helper.UrlParseHelper;
+import com.xda.one.ui.listener.BackPressedListener;
+import com.xda.one.util.AccountUtils;
+import com.xda.one.util.FragmentUtils;
+import com.xda.one.util.OneApplication;
 
 public class MainActivity extends BaseActivity
-        implements NavigationDrawerFragment.Callback, SubscribedPagerFragment.Callback,
+        implements NavigationDrawerFragment.Callback, ForumPagerFragment.Callback,
+        SubscribedPagerFragment.Callback,
         ThreadFragment.Callback, PostPagerFragment.Callback, SearchFragment.Callback {
 
     private static final String SCREEN_NAME = "XDA-One MainActivity";
@@ -166,28 +165,34 @@ public class MainActivity extends BaseActivity
         }
     }
 
+    private static long back_pressed;
+
     @Override
     public void onBackPressed() {
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(Gravity.LEFT);
+            return;
+        }
+
         final Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
-        // TODO - fix this hack
-        if (fragment instanceof SearchFragment) {
-            final SearchFragment searchFragment = (SearchFragment) fragment;
-            if (searchFragment.onBackPressed()) {
-                return;
-            }
-        } else if (fragment instanceof ForumPagerFragment) {
-            final ForumPagerFragment pagerFragment = (ForumPagerFragment) fragment;
-            if (pagerFragment.onBackPressed()) {
+        if (fragment != null && fragment instanceof BackPressedListener) {
+            if (((BackPressedListener) fragment).onBackPressed()) {
                 return;
             }
         }
 
-        if (!mDrawerLayout.isDrawerOpen(Gravity.START)
-                && getSupportFragmentManager().getBackStackEntryCount() == 0) {
-            mDrawerLayout.openDrawer(Gravity.START);
-            return;
+        if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+            if (back_pressed + 2000 > System.currentTimeMillis()) {
+                super.onBackPressed();
+            } else {
+                Toast.makeText(getBaseContext(), R.string.double_back_press, Toast.LENGTH_SHORT).show();
+                back_pressed = System.currentTimeMillis();
+                return;
+            }
         }
+
         super.onBackPressed();
+
     }
 
     @Override
@@ -225,7 +230,7 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void switchCurrentlyDisplayedFragment(final Fragment fragment,
-            final boolean backStackAndAnimate, final String title) {
+                                                 final boolean backStackAndAnimate, final String title) {
         getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         final FragmentTransaction transaction = FragmentUtils
                 .getDefaultTransaction(getSupportFragmentManager());

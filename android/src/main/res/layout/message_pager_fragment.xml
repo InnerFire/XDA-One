@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="?android:attr/actionBarSize">
@@ -8,24 +9,27 @@
         android:id="@+id/pager_tab_strip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/tab_layout_background_color" />
+        android:background="@color/tab_layout_background_color"
+        android:elevation="@dimen/toolbar_elevation" />
 
     <com.xda.one.ui.widget.NonSwipeableViewPager
         android:id="@+id/message_view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/pager_tab_strip" />
+        android:layout_below="@id/pager_tab_strip"
+        android:layout_marginTop="?android:attr/actionBarSize" />
 
-    <com.xda.one.ui.widget.FloatingActionButton
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/message_fragment_action_create"
-        android:layout_width="@dimen/fab_size"
-        android:layout_height="@dimen/fab_size"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right|end"
         android:clickable="true"
-        android:padding="16dp"
+        android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/create"
-        android:tint="@android:color/white" />
-</RelativeLayout>
+        android:tint="@android:color/white"
+        app:fabSize="normal"
+        app:elevation="@dimen/fab_elevation"
+        app:pressedTranslationZ="6dp"
+        app:borderWidth="0dp" />
+</android.support.design.widget.CoordinatorLayout>

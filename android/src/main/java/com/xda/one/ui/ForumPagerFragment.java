@@ -4,10 +4,10 @@ import com.xda.one.R;
 import com.xda.one.api.model.response.ResponseForum;
 import com.xda.one.db.ForumDbHelper;
 import com.xda.one.model.misc.ForumType;
+import com.xda.one.ui.listener.BackPressedListener;
 import com.xda.one.ui.widget.TabLayout;
 import com.xda.one.util.FragmentUtils;
 import com.xda.one.util.UIUtils;
-
 import android.app.SearchManager;
 import android.content.Context;
 import android.database.Cursor;
@@ -19,8 +19,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,11 +28,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SimpleCursorAdapter;
 
 import java.util.ArrayList;
 
-public class ForumPagerFragment extends Fragment {
+public class ForumPagerFragment extends Fragment implements BackPressedListener {
 
     private ForumFragmentAdapter mFragmentAdapter;
 
@@ -98,6 +97,7 @@ public class ForumPagerFragment extends Fragment {
         searchView.setOnSuggestionListener(listener);
     }
 
+    @Override
     public boolean onBackPressed() {
         final boolean isExpanded = MenuItemCompat.isActionViewExpanded(mSearchMenuItem);
         if (isExpanded) {
@@ -205,5 +205,10 @@ public class ForumPagerFragment extends Fragment {
                     new ArrayList<String>(), null, forum);
             return true;
         }
+    }
+
+    public interface Callback {
+
+        Toolbar getToolbar();
     }
 }

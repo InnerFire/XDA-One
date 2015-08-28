@@ -1,14 +1,5 @@
 package com.xda.one.ui;
 
-import com.squareup.picasso.Picasso;
-import com.xda.one.R;
-import com.xda.one.api.model.interfaces.Forum;
-import com.xda.one.api.model.response.ResponseUserProfile;
-import com.xda.one.loader.UserProfileLoader;
-import com.xda.one.ui.helper.ActionModeHelper;
-import com.xda.one.util.FragmentUtils;
-import com.xda.one.util.UIUtils;
-
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -26,11 +17,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Picasso;
+import com.xda.one.R;
+import com.xda.one.api.model.interfaces.Forum;
+import com.xda.one.api.model.response.ResponseUserProfile;
+import com.xda.one.loader.UserProfileLoader;
+import com.xda.one.ui.helper.ActionModeHelper;
+import com.xda.one.util.CompatUtils;
+import com.xda.one.util.FragmentUtils;
+import com.xda.one.util.UIUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class MyDeviceFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<ResponseUserProfile> {
+
+    private ActionBar actionBar;
 
     private ActionModeHelper mModeHelper;
 
@@ -65,11 +68,25 @@ public class MyDeviceFragment extends Fragment
         ViewCompat.setOverScrollMode(mRecyclerView, ViewCompat.OVER_SCROLL_NEVER);
         mModeHelper.setRecyclerView(mRecyclerView);
 
-        final ActionBar actionBar = UIUtils.getSupportActionBar(getActivity());
+        actionBar = UIUtils.getSupportActionBar(getActivity());
         actionBar.setTitle(R.string.my_devices);
         actionBar.setSubtitle(null);
 
+        if (CompatUtils.hasLollipop()) {
+            actionBar.setElevation(getResources().getDimension(R.dimen.toolbar_elevation));
+        }
+
         getLoaderManager().initLoader(0, null, this);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        // destroy action mode
+        if (CompatUtils.hasLollipop()) {
+            actionBar.setElevation(0);
+        }
     }
 
     @Override
@@ -106,8 +123,8 @@ public class MyDeviceFragment extends Fragment
         public void setupImageViewDevice(final ImageView imageView, final Forum forum) {
             Picasso.with(getActivity())
                     .load(forum.getImageUrl())
-                    .placeholder(R.drawable.phone)
-                    .error(R.drawable.phone)
+                    .placeholder(R.drawable.ic_nav_phone)
+                    .error(R.drawable.ic_nav_phone)
                     .into(imageView);
         }
     }

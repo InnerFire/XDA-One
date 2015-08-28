@@ -67,6 +67,9 @@
 
         <activity android:name=".ui.SettingsActivity" />
 
+        <activity android:name=".ui.NewsReaderActivity"
+            android:theme="@style/Theme.One.NewsReader" />
+
         <activity
             android:name=".ui.UserProfileActivity"
             android:parentActivityName=".ui.MainActivity"

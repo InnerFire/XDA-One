@@ -219,10 +219,12 @@ public class RetrofitPostClient implements PostClient {
         @Override
         public void success(final Response response, final Response response2) {
             final Result result = Result.parseResultFromResponse(response);
-            if (result.isSuccess()) {
-                mPost.setThanked(mNewState);
-                mPost.setThanksCount(mPost.getThanksCount() + (mNewState ? 1 : -1));
-                mRunnable.run(result);
+            if (result != null) {
+                if (result.isSuccess()) {
+                    mPost.setThanked(mNewState);
+                    mPost.setThanksCount(mPost.getThanksCount() + (mNewState ? 1 : -1));
+                    mRunnable.run(result);
+                }
             }
         }
 

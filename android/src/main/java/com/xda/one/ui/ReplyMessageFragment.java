@@ -14,8 +14,10 @@ import com.xda.one.util.AccountUtils;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -120,6 +122,21 @@ public class ReplyMessageFragment extends DialogFragment {
         final TextView username = (TextView) view.findViewById(R.id
                 .reply_message_fragment_header_username);
         username.setText(account.getUserName());
+
+        getDialog().setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                if (getDialog() == null)
+                    return;
+
+                DisplayMetrics metrics = getActivity().getResources().getDisplayMetrics();
+
+                int dialogWidth = metrics.widthPixels;
+                int dialogHeight = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+                getDialog().getWindow().setLayout(dialogWidth, dialogHeight);
+            }
+        });
 
         if (savedInstanceState != null && savedInstanceState.getBoolean(DIALOG_SAVED_STATE)) {
             mDialog.show();
