@@ -1,7 +1,6 @@
 package com.xda.one.ui;
 
 import com.xda.one.R;
-import com.xda.one.ui.widget.FloatingActionButton;
 import com.xda.one.ui.widget.TabLayout;
 import com.xda.one.util.CompatUtils;
 import com.xda.one.util.UIUtils;
@@ -11,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -70,12 +70,14 @@ public class MessagePagerFragment extends Fragment {
             }
         });
 
+        /*
         if (CompatUtils.hasLollipop()) {
             CompatUtils.setBackground(button,
                     getResources().getDrawable(R.drawable.fab_background));
         } else {
             button.setBackgroundColor(getResources().getColor(R.color.fab_color));
         }
+        */
     }
 
     public MessageFragment getCurrentFragment() {

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!-- Main Android colours -->
     <color name="colorPrimary">@color/main_xda_color</color>
     <color name="colorPrimaryDark">#cF7A0D</color>
@@ -12,8 +11,14 @@
     <color name="attachment_name_color">#ff333333</color>
     <color name="text_color_hint_grey">#ff949494</color>
     <color name="attachment_image_background_color">#ffe5e5e5</color>
+
     <color name="post_item_background">#EEEEEE</color>
     <color name="post_item_selected">#ffbebebe</color>
+
+    <color name="item_grey_background_color">#ffececec</color>
+    <color name="item_selected_background_color">#46474747</color>
+    <color name="item_grey_pressed_color">#ffd9d9d9</color>
+    <color name="item_grey_ripple_color">#20444444</color>
 
     <!-- Component colours -->
     <color name="fab_color">@color/colorAccent</color>

@@ -20,9 +20,12 @@ import android.webkit.WebViewClient;
 import android.widget.SearchView;
 
 import com.xda.one.R;
+import com.xda.one.util.CompatUtils;
 import com.xda.one.util.UIUtils;
 
 public class SearchFragment extends Fragment {
+
+    private ActionBar actionBar;
 
     private WebView mWebView;
 
@@ -55,9 +58,13 @@ public class SearchFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
 
-        final ActionBar actionBar = UIUtils.getSupportActionBar(getActivity());
+        actionBar = UIUtils.getSupportActionBar(getActivity());
         actionBar.setTitle(R.string.search);
         actionBar.setSubtitle(null);
+
+        if (CompatUtils.hasLollipop()) {
+            actionBar.setElevation(getResources().getDimension(R.dimen.toolbar_elevation));
+        }
 
         final WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);
@@ -86,6 +93,16 @@ public class SearchFragment extends Fragment {
             mWebView.restoreState(savedInstanceState);
         } else if (mCurrentUrl != null) {
             mWebView.loadUrl(mCurrentUrl);
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        // destroy action mode
+        if (CompatUtils.hasLollipop()) {
+            actionBar.setElevation(0);
         }
     }
 

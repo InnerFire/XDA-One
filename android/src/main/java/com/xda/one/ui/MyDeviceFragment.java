@@ -23,6 +23,7 @@ import com.xda.one.api.model.interfaces.Forum;
 import com.xda.one.api.model.response.ResponseUserProfile;
 import com.xda.one.loader.UserProfileLoader;
 import com.xda.one.ui.helper.ActionModeHelper;
+import com.xda.one.util.CompatUtils;
 import com.xda.one.util.FragmentUtils;
 import com.xda.one.util.UIUtils;
 
@@ -31,6 +32,8 @@ import java.util.List;
 
 public class MyDeviceFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<ResponseUserProfile> {
+
+    private ActionBar actionBar;
 
     private ActionModeHelper mModeHelper;
 
@@ -65,11 +68,25 @@ public class MyDeviceFragment extends Fragment
         ViewCompat.setOverScrollMode(mRecyclerView, ViewCompat.OVER_SCROLL_NEVER);
         mModeHelper.setRecyclerView(mRecyclerView);
 
-        final ActionBar actionBar = UIUtils.getSupportActionBar(getActivity());
+        actionBar = UIUtils.getSupportActionBar(getActivity());
         actionBar.setTitle(R.string.my_devices);
         actionBar.setSubtitle(null);
 
+        if (CompatUtils.hasLollipop()) {
+            actionBar.setElevation(getResources().getDimension(R.dimen.toolbar_elevation));
+        }
+
         getLoaderManager().initLoader(0, null, this);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        // destroy action mode
+        if (CompatUtils.hasLollipop()) {
+            actionBar.setElevation(0);
+        }
     }
 
     @Override

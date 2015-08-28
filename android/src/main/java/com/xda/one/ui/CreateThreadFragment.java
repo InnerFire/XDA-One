@@ -9,11 +9,13 @@ import com.xda.one.api.retrofit.RetrofitThreadClient;
 import com.xda.one.auth.XDAAccount;
 import com.xda.one.util.AccountUtils;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,14 +92,14 @@ public class CreateThreadFragment extends DialogFragment implements TextWatcher 
                 boolean creatable = true;
 
                 if (mPostContent.getText().length() == 0) {
-                    mPostContent.setError("Please enter a message");
+                    mPostContent.setError(getString(R.string.enter_message));
                     creatable = false;
                 } else {
                     mPostContent.setError(null);
                 }
 
                 if (mPostTitle.getText().length() == 0) {
-                    mPostTitle.setError("Please enter a title");
+                    mPostTitle.setError(getString(R.string.enter_title));
                     creatable = false;
                 } else {
                     mPostTitle.setError(null);
@@ -123,12 +125,27 @@ public class CreateThreadFragment extends DialogFragment implements TextWatcher 
         });
 
         mPostContent.addTextChangedListener(this);
+
+        getDialog().setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                if (getDialog() == null)
+                    return;
+
+                DisplayMetrics metrics = getActivity().getResources().getDisplayMetrics();
+
+                int dialogWidth = metrics.widthPixels;
+                int dialogHeight = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+                getDialog().getWindow().setLayout(dialogWidth, dialogHeight);
+            }
+        });
     }
 
 
     void createNewThread() {
         if (!AccountUtils.isAccountAvailable(getActivity())) {
-            Toast.makeText(getActivity(), "You are not logged in", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), R.string.not_logged_in, Toast.LENGTH_LONG).show();
             dismiss();
         }
         final String postTitle = mPostTitle.getText().toString();
@@ -137,7 +154,7 @@ public class CreateThreadFragment extends DialogFragment implements TextWatcher 
         mClient.createThread(mForumId, postTitle, message, new Consumer<Result>() {
             @Override
             public void run(Result result) {
-                Toast.makeText(getActivity(), "Post has been created", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), R.string.post_created, Toast.LENGTH_LONG).show();
                 dismiss();
             }
         });

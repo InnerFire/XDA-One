@@ -44,25 +44,37 @@
         android:text="@string/replying_to"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
-    <ImageView
-        android:id="@+id/reply_message_dialog_fragment_send"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:background="?android:attr/selectableItemBackground"
-        android:padding="8dp"
-        android:src="@drawable/send_button_background" />
-
     <include
         android:id="@+id/reply_message_dialog_fragment_message"
         layout="@layout/default_content_edit_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/reply_message_dialog_fragment_send"
+        android:layout_above="@id/create_message_dialog_fragment_footer"
         android:layout_alignLeft="@id/reply_message_dialog_fragment_avatar"
         android:layout_alignStart="@id/reply_message_dialog_fragment_avatar"
         android:layout_below="@id/reply_message_fragment_header_title" />
 
+    <RelativeLayout
+        android:id="@+id/create_message_dialog_fragment_footer"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@color/reply_dialog_footer_grey">
+
+        <ImageView
+            android:id="@+id/reply_message_dialog_fragment_send"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="10dp"
+            android:layout_marginRight="8dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="?android:attr/selectableItemBackground"
+            android:scaleType="fitCenter"
+            android:src="@drawable/send_button_background"  />
+    </RelativeLayout>
 </RelativeLayout>

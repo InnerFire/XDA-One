@@ -2,6 +2,7 @@ package com.xda.one.util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -81,5 +82,22 @@ public class UIUtils {
 
     public static BaseActivity getBaseActivity(final Activity activity) {
         return (BaseActivity) activity;
+    }
+
+    public static void setStatusBarColor(Activity activity, int color, boolean scaleColor) {
+        if (!CompatUtils.hasLollipop()) {
+            return;
+        }
+        if (!scaleColor) {
+            activity.getWindow().setStatusBarColor(color);
+        } else {
+            activity.getWindow().setStatusBarColor(scaleColor(color, 0.8f, false));
+        }
+    }
+
+    public static int scaleColor(int color, float factor, boolean scaleAlpha) {
+        return Color.argb(scaleAlpha ? (Math.round(Color.alpha(color) * factor)) : Color.alpha(color),
+                Math.round(Color.red(color) * factor), Math.round(Color.green(color) * factor),
+                Math.round(Color.blue(color) * factor));
     }
 }

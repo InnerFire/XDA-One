@@ -1,5 +1,6 @@
 package com.xda.one.auth;
 
+import com.xda.one.R;
 import com.xda.one.api.model.response.ResponseForum;
 import com.xda.one.loader.ForumLoader;
 import com.xda.one.model.misc.ForumType;
@@ -41,7 +42,7 @@ public class AuthForumLoaderCallbacks
             final List<ResponseForum> data) {
         mProgressDialog.dismiss();
         if (Utils.isCollectionEmpty(data) || mAccount == null) {
-            Toast.makeText(mActivity, "Something went wrong", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mActivity, R.string.something_wrong, Toast.LENGTH_SHORT).show();
             return;
         }
 

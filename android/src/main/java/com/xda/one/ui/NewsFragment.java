@@ -6,11 +6,11 @@ import com.xda.one.api.model.response.container.ResponseNewsContainer;
 import com.xda.one.loader.NewsLoader;
 import com.xda.one.ui.listener.InfiniteRecyclerLoadHelper;
 import com.xda.one.ui.widget.XDARefreshLayout;
+import com.xda.one.util.CompatUtils;
 import com.xda.one.util.UIUtils;
 import com.xda.one.util.Utils;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class NewsFragment extends Fragment
@@ -40,6 +41,8 @@ public class NewsFragment extends Fragment
     private XDARefreshLayout mRefreshLayout;
 
     private RecyclerView mRecyclerView;
+
+    private ActionBar actionBar;
 
     // View helpers
     private InfiniteRecyclerLoadHelper mInfiniteScrollListener;
@@ -61,10 +64,23 @@ public class NewsFragment extends Fragment
         mAdapter = new NewsAdapter(getActivity(), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (v.getTag() != null && v.getTag() instanceof String) {
-                    Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse((String) v.getTag()));
-                    startActivity(i);
+                if (v.getTag() != null) {
+                    Intent intent = new Intent(getActivity(), NewsReaderActivity.class);
+
+                    Bundle newsItem = (Bundle)v.getTag();
+                    //HashMap<String, String> newsItem = (HashMap<String, String>)v.getTag();
+                    intent.putExtra("NEWS_TITLE", newsItem.getString("NEWS_TITLE"));
+                    intent.putExtra("NEWS_IMAGE_URL", newsItem.getString("NEWS_IMAGE_URL"));
+                    intent.putExtra("NEWS_CONTENT", newsItem.getString("NEWS_CONTENT"));
+                    intent.putExtra("NEWS_URL", newsItem.getString("NEWS_URL"));
+                    /*
+                    intent.putExtra("NEWS_TITLE", ((List<String>)v.getTag()).get(0));
+                    intent.putExtra("NEWS_IMAGE_URL", ((List<String>)v.getTag()).get(1));
+                    intent.putExtra("NEWS_CONTENT", ((List<String>)v.getTag()).get(2));
+                    intent.putExtra("NEWS_URL", ((List<String>)v.getTag()).get(3));
+
+                    */
+                    startActivity(intent);
                 }
             }
         });
@@ -80,9 +96,13 @@ public class NewsFragment extends Fragment
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        final ActionBar actionBar = UIUtils.getSupportActionBar(getActivity());
+        actionBar = UIUtils.getSupportActionBar(getActivity());
         actionBar.setTitle(R.string.xda_news);
         actionBar.setSubtitle(null);
+
+        if (CompatUtils.hasLollipop()) {
+            actionBar.setElevation(getResources().getDimension(R.dimen.toolbar_elevation));
+        }
 
         mRefreshLayout = (XDARefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         mRefreshLayout.setXDAColourScheme();
@@ -124,6 +144,16 @@ public class NewsFragment extends Fragment
                         new InfiniteLoadCallback(), mTotalPages, null);
                 addDataToAdapter(news);
             }
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        // destroy action mode
+        if (CompatUtils.hasLollipop()) {
+            actionBar.setElevation(0);
         }
     }
 

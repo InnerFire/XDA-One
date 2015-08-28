@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/view_message_fragment_ab_mark_read_unread"
         android:icon="@drawable/ic_action_markunread_light"
-        android:showAsAction="always"
+        app:showAsAction="ifRoom"
         android:title="@string/mark_read" />
     <item
         android:id="@+id/view_message_fragment_ab_delete"
         android:icon="@drawable/ic_action_delete"
-        android:showAsAction="always"
+        app:showAsAction="ifRoom"
         android:title="@string/delete" />
 </menu>

@@ -2,9 +2,9 @@ package com.xda.one.ui;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -25,6 +25,7 @@ import com.xda.one.api.retrofit.RetrofitThreadClient;
 import com.xda.one.model.augmented.AugmentedUnifiedThread;
 import com.xda.one.model.augmented.container.AugmentedUnifiedThreadContainer;
 import com.xda.one.ui.helper.ActionModeHelper;
+import com.xda.one.ui.listener.BackPressedListener;
 import com.xda.one.ui.listener.InfiniteRecyclerLoadHelper;
 import com.xda.one.ui.thread.DefaultThreadLoaderStrategy;
 import com.xda.one.ui.thread.FirstThreadClickStrategy;
@@ -35,7 +36,6 @@ import com.xda.one.ui.thread.ThreadClickStrategy;
 import com.xda.one.ui.thread.ThreadEventHelper;
 import com.xda.one.ui.thread.ThreadLoaderStrategy;
 import com.xda.one.ui.thread.UnreadThreadClickStrategy;
-import com.xda.one.ui.widget.FloatingActionButton;
 import com.xda.one.ui.widget.HierarchySpinnerAdapter;
 import com.xda.one.ui.widget.XDARefreshLayout;
 import com.xda.one.util.AccountUtils;
@@ -46,7 +46,7 @@ import com.xda.one.util.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ThreadFragment extends Fragment {
+public class ThreadFragment extends Fragment implements BackPressedListener {
 
     // Request codes
     public static final int CREATE_THREAD_REQUEST_CODE = 101;
@@ -102,6 +102,8 @@ public class ThreadFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
 
+    private ActionBar actionBar;
+
     // View helpers
     private ActionModeHelper mModeHelper;
 
@@ -113,6 +115,8 @@ public class ThreadFragment extends Fragment {
     private ThreadAdapter mAdapter;
 
     private HierarchySpinnerAdapter mSpinnerAdapter;
+
+    private View mRootView;
 
     // Data
     private int mTotalPages;
@@ -205,7 +209,7 @@ public class ThreadFragment extends Fragment {
         mSpinnerAdapter = new HierarchySpinnerAdapter(getActivity(),
                 LayoutInflater.from(getActivity()), mHierarchy, getFragmentManager());
 
-        mThreadEventHelper = new ThreadEventHelper(getActivity(), mAdapter);
+        //mThreadEventHelper = new ThreadEventHelper(getActivity(), mAdapter, mRootView);
         helper.setAdapter(mAdapter);
         helper.setModeHelper(mModeHelper);
     }
@@ -213,7 +217,9 @@ public class ThreadFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.thread_fragment, container, false);
+        mRootView = inflater.inflate(R.layout.thread_fragment, container, false);
+        mThreadEventHelper = new ThreadEventHelper(getActivity(), mAdapter, mRootView);
+        return mRootView;
     }
 
     @Override
@@ -287,17 +293,11 @@ public class ThreadFragment extends Fragment {
         }
 
         button.setOnClickListener(new CreateThreadListener());
-        if (CompatUtils.hasLollipop()) {
-            final Drawable drawable = getResources().getDrawable(R.drawable.fab_background);
-            CompatUtils.setBackground(button, drawable);
-        } else {
-            final int color = getResources().getColor(R.color.fab_color);
-            button.setBackgroundColor(color);
-        }
     }
 
     private void setupActionBar() {
-        final ActionBar actionBar = UIUtils.getSupportActionBar(getActivity());
+        actionBar = UIUtils.getSupportActionBar(getActivity());
+
         if (mForumTitle != null) {
             actionBar.setTitle(mForumTitle.isEmpty() ? null : mForumTitle);
         }
@@ -311,11 +311,30 @@ public class ThreadFragment extends Fragment {
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         actionBar.setListNavigationCallbacks(mSpinnerAdapter, mSpinnerAdapter);
         actionBar.setSelectedNavigationItem(mSpinnerAdapter.getCount() - 1);
+
+        if (CompatUtils.hasLollipop()) {
+            actionBar.setElevation(getResources().getDimension(R.dimen.toolbar_elevation));
+        }
     }
+
+    @Override
+    public boolean onBackPressed() {
+        final boolean isExpanded = mModeHelper.isActionModeStarted();
+        if (isExpanded) {
+            if (mModeHelper != null)
+                mModeHelper.finish();
+        }
+        return isExpanded;
+    }
+
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+
+        if (CompatUtils.hasLollipop()) {
+            actionBar.setElevation(0);
+        }
 
         mThreadClient.getBus().unregister(mThreadEventHelper);
     }

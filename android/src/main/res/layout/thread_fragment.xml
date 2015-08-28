@@ -1,29 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="?android:attr/actionBarSize"
     android:orientation="vertical">
 
-    <include layout="@layout/card_tile_refresh_recycler" />
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        layout="@layout/card_tile_refresh_recycler" />
 
     <include
         android:id="@android:id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
         layout="@layout/default_list_empty_view" />
 
-    <com.xda.one.ui.widget.FloatingActionButton
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/thread_fragment_create_thread"
-        android:layout_width="@dimen/fab_size"
-        android:layout_height="@dimen/fab_size"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right|end"
         android:clickable="true"
-        android:padding="16dp"
+        android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/create"
-        android:tint="@android:color/white" />
-
-</RelativeLayout>
+        android:tint="@android:color/white"
+        app:fabSize="normal"
+        app:elevation="@dimen/fab_elevation"
+        app:pressedTranslationZ="6dp"
+        app:borderWidth="0dp" />
+</android.support.design.widget.CoordinatorLayout>

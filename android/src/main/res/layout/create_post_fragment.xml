@@ -40,37 +40,50 @@
         android:textColorHint="@color/default_secondary_text"
         android:textColorHighlight="@color/default_secondary_text" />
 
-    <TextView
-        android:id="@+id/create_post_fragment_header_title"
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/create_post_fragment_header_title_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_below="@+id/create_post_fragment_header_username"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_toEndOf="@+id/create_post_dialog_fragment_avatar"
-        android:layout_toRightOf="@+id/create_post_dialog_fragment_avatar"
-        android:gravity="center_vertical"
-        android:paddingBottom="8dp"
-        android:text="@string/replying_to"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="@color/default_secondary_text"
-        android:textColorHint="@color/default_secondary_text"
-        android:textColorHighlight="@color/default_secondary_text" />
+        android:layout_toRightOf="@+id/create_post_dialog_fragment_avatar" >
+
+        <TextView
+            android:id="@+id/create_post_fragment_header_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginEnd="8dp"
+            android:gravity="center_vertical"
+            android:paddingBottom="8dp"
+            android:text="@string/replying_to"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/default_secondary_text"
+            android:textColorHint="@color/default_secondary_text"
+            android:textColorHighlight="@color/default_secondary_text" />
+    </android.support.design.widget.TextInputLayout>
 
 
-    <include
-        android:id="@+id/create_post_dialog_fragment_message"
-        layout="@layout/default_content_edit_text"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/create_post_fragment_content_input"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignLeft="@id/create_post_dialog_fragment_avatar"
         android:layout_alignStart="@id/create_post_dialog_fragment_avatar"
-        android:layout_below="@id/create_post_fragment_header_title"
-        android:layout_above="@+id/create_post_dialog_fragment_footer" />
+        android:layout_below="@id/create_post_fragment_header_title_input"
+        android:layout_above="@+id/create_post_dialog_fragment_footer" >
+
+        <include
+            android:id="@+id/create_post_fragment_content"
+            layout="@layout/default_content_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.design.widget.TextInputLayout>
 
     <RelativeLayout
         android:id="@+id/create_post_dialog_fragment_footer"
@@ -86,7 +99,7 @@
             android:id="@+id/create_post_dialog_fragment_emoticon"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:padding="8dp"
+            android:padding="10dp"
             android:layout_marginRight="8dp"
             android:layout_alignParentBottom="true"
             android:layout_toLeftOf="@+id/create_post_dialog_fragment_send"
@@ -99,7 +112,7 @@
             android:id="@+id/create_post_dialog_fragment_send"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:padding="8dp"
+            android:padding="10dp"
             android:layout_marginRight="8dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"

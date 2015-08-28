@@ -216,6 +216,7 @@ public class NavigationDrawerFragment extends Fragment
             mLoginLogout.setText(getString(R.string.login));
 
             mUsernameTextView.setText("Anonymous");
+            mEmailTextView.setText(getResources().getString(R.string.email));
             Picasso.with(getActivity()).load(R.drawable.ic_account_circle_light).into(mAvatar);
         } else {
             mLoginLogout.setIdleText(getString(R.string.logout));

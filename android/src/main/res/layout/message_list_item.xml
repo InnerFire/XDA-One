@@ -32,15 +32,15 @@
             android:layout_alignParentStart="true" />
 
         <TextView
-            android:id="@+id/messsage_list_item_title"
+            android:id="@+id/messsage_list_item_user_name"
+            style="@style/Theme.One.ThreadTextAppearanceSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:text="@string/private_messages"
+            android:text="@string/username"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="4dp"
-            android:textSize="14sp"
             android:textColor="@color/default_primary_text"
             android:textColorHint="@color/default_secondary_text"
             android:textColorHighlight="@color/default_secondary_text"
@@ -48,17 +48,17 @@
             android:layout_toEndOf="@+id/messsage_list_item_avatar" />
 
         <TextView
-            android:id="@+id/messsage_list_item_user_name"
-            style="@style/Theme.One.ThreadTextAppearanceSmall"
+            android:id="@+id/messsage_list_item_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:text="@string/username"
+            android:text="@string/private_messages"
             android:layout_marginBottom="4dp"
-            android:textColor="@color/default_secondary_text"
+            android:layout_centerVertical="true"
+            android:textSize="14sp"
+            android:textColor="@color/default_primary_text"
             android:textColorHint="@color/default_secondary_text"
             android:textColorHighlight="@color/default_secondary_text"
-            android:layout_centerVertical="true"
             android:layout_alignLeft="@+id/messsage_list_item_content"
             android:layout_alignStart="@+id/messsage_list_item_content" />
 
@@ -71,9 +71,9 @@
             android:textColor="@color/default_secondary_text"
             android:textColorHint="@color/default_secondary_text"
             android:textColorHighlight="@color/default_secondary_text"
-            android:layout_centerVertical="true"
-            android:layout_alignRight="@+id/messsage_list_item_content"
-            android:layout_alignEnd="@+id/messsage_list_item_content" />
+            android:layout_alignTop="@+id/messsage_list_item_user_name"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
         <TextView
             android:id="@+id/messsage_list_item_content"
@@ -81,15 +81,14 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:text="@string/message_content"
-            android:layout_marginLeft="16dp"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textSize="13sp"
             android:textColor="@color/default_secondary_text"
             android:textColorHint="@color/default_secondary_text"
             android:textColorHighlight="@color/default_secondary_text"
-            android:layout_below="@+id/messsage_list_item_user_name"
-            android:layout_toRightOf="@+id/messsage_list_item_avatar"
-            android:layout_toEndOf="@+id/messsage_list_item_avatar" />
+            android:layout_below="@+id/messsage_list_item_title"
+            android:layout_alignLeft="@+id/messsage_list_item_user_name"
+            android:layout_alignStart="@+id/messsage_list_item_user_name" />
 
     </RelativeLayout>
 </FrameLayout>

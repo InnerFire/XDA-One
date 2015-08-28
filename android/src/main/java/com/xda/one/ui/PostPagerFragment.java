@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
@@ -39,9 +40,7 @@ import com.xda.one.event.thread.ThreadSubscriptionChangingFailedEvent;
 import com.xda.one.model.augmented.AugmentedPost;
 import com.xda.one.model.augmented.AugmentedUnifiedThread;
 import com.xda.one.ui.helper.QuickReturnHelper;
-import com.xda.one.ui.widget.FloatingActionButton;
 import com.xda.one.util.AccountUtils;
-import com.xda.one.util.CompatUtils;
 import com.xda.one.util.UIUtils;
 
 import java.util.ArrayList;
@@ -270,13 +269,6 @@ public class PostPagerFragment extends Fragment implements PostFragment.Callback
         final FloatingActionButton button = (FloatingActionButton) view
                 .findViewById(R.id.post_pager_fragment_floating_reply_button);
         button.setOnClickListener(new CreatePostListener());
-        if (CompatUtils.hasLollipop()) {
-            final Drawable drawable = getResources().getDrawable(R.drawable.fab_background);
-            button.setBackground(drawable);
-        } else {
-            final int color = getResources().getColor(R.color.fab_color);
-            button.setBackgroundColor(color);
-        }
 
         mThreadClient.getBus().register(mEventHandler);
     }

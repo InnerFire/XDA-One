@@ -56,16 +56,18 @@ android {
 }
 
 dependencies {
-    compile 'com.google.android.gms:play-services-plus:7.0.0'
-    compile 'com.google.android.gms:play-services-identity:7.0.0'
-    compile 'com.google.android.gms:play-services-analytics:7.0.0'
+    compile 'com.google.android.gms:play-services-plus:7.5.0'
+    compile 'com.google.android.gms:play-services-identity:7.5.0'
+    compile 'com.google.android.gms:play-services-analytics:7.5.0'
 
     compile 'com.crashlytics.android:crashlytics:1.+'
 
-    compile 'com.android.support:support-v4:22.1.0'
-    compile 'com.android.support:appcompat-v7:22.1.0'
-    compile 'com.android.support:cardview-v7:22.1.0'
-    compile 'com.android.support:recyclerview-v7:22.1.0'
+    compile 'com.android.support:support-v4:22.2.1'
+    compile 'com.android.support:appcompat-v7:22.2.1'
+    compile 'com.android.support:cardview-v7:22.2.1'
+    compile 'com.android.support:recyclerview-v7:22.2.1'
+    compile 'com.android.support:design:22.2.1'
+    compile 'com.android.support:palette-v7:22.2.1'
 
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.squareup.retrofit:converter-jackson:1.9.0'

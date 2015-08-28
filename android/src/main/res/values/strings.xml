@@ -23,6 +23,15 @@
     <string name="sent_items_title">Sent Items</string>
 
     <string name="double_back_press">Press once again to exit!</string>
+    <string name="something_wrong">Something went wrong</string>
+
+    <string name="enter_username">Please enter a username</string>
+    <string name="enter_title">Please enter title</string>
+    <string name="enter_message">Please enter message</string>
+
+    <string name="not_logged_in">You are not logged in</string>
+    <string name="post_created">Post has been created</string>
+
 
     <!-- forum menu -->
     <string name="forum_home_title">XDA Home</string>
@@ -42,6 +51,7 @@
     <!-- Small phrases -->
     <string name="send">Send</string>
     <string name="message_content">Message Content</string>
+    <string name="thanks_toggle">Thanks toggled</string>
     <string name="title">Title</string>
     <string name="loading">Loading…</string>
     <string name="username">Username</string>
@@ -84,6 +94,8 @@
     <string name="search_xda_title">Search XDA</string>
 
     <string name="post_creation_failed">Post creation failed</string>
+    <string name="post_download_finished">"Finished downloading"</string>
+    <string name="post_open_download">Open</string>
 
     <string name="message_delete_successful">Successfully deleted message</string>
 
@@ -148,4 +160,23 @@
     <string name="something_went_wrong_request">Something went wrong with that request</string>
     <string name="unable_to_refresh">Unable to refresh posts</string>
     <string name="post_title">Post Title</string>
+
+    <!-- News Reader -->
+    <string name="share_title">Share Feed</string>
+    <string name="share_subtext">Sent using XDA One</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_general_title">General</string>
+    <string name="settings_post_title">Post</string>
+
+    <string name="pref_double_tap_title">Double back press to exit</string>
+    <string name="pref_double_tap_desc">Requires the user to press back twice to exit the app</string>
+
+    <string name="pref_image_attachments_wifi_title">Load image attachments on WiFi</string>
+    <string name="pref_image_attachments_wifi_desc">Only download image attachments on WiFi</string>
+
+    <string name="pref_signature_title">Signature</string>
+    <string name="pref_signature_desc">Sent using XDA One</string>
+
 </resources>

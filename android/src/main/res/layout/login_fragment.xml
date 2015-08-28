@@ -11,23 +11,33 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <EditText
-            android:id="@+id/accountName"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:hint="@string/username"
-            android:inputType="textEmailAddress"
-            android:padding="8dp" />
+            android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/accountPassword"
+            <EditText
+                android:id="@+id/accountName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="@string/username"
+                android:inputType="textEmailAddress"
+                android:padding="8dp" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:hint="@string/password"
-            android:inputType="textPassword"
-            android:padding="8dp" />
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/accountPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:padding="8dp" />
+        </android.support.design.widget.TextInputLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

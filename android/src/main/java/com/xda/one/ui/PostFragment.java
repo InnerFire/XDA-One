@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.app.NotificationCompat;
@@ -78,7 +79,10 @@ public class PostFragment extends Fragment
         public void onReceive(final Context context, final Intent intent) {
             final NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
             builder.build();
-            Toast.makeText(context, "Finished downloading", Toast.LENGTH_LONG).show();
+            //Toast.makeText(context, "Finished downloading", Toast.LENGTH_LONG).show();
+            Snackbar.make(mRootView,
+                    R.string.post_download_finished, Snackbar.LENGTH_LONG)
+                    .show();
         }
     };
 
@@ -99,6 +103,8 @@ public class PostFragment extends Fragment
     private ResponsePostContainer mContainerArgument;
 
     private View mEmptyView;
+
+    private View mRootView;
 
     public static PostFragment getInstance(final UnifiedThread unifiedThread, final int page) {
         final Bundle bundle = new Bundle();
@@ -223,7 +229,9 @@ public class PostFragment extends Fragment
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              final Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.post_fragment, container, false);
+        mRootView =  inflater.inflate(R.layout.post_fragment, container, false);
+
+        return mRootView;
     }
 
     @Override
@@ -322,6 +330,8 @@ public class PostFragment extends Fragment
         UIUtils.updateEmptyViewState(getView(), mRecyclerView, data.size());
         mAdapter.addAll(data);
 
+
+
         // Scroll to the relevant position in the list
         if (mScrollToItem == SCROLL_TO_LAST_LIST_ITEM) {
             mRecyclerView.scrollToPosition(mAdapter.getItemCount() - 1);
@@ -339,7 +349,9 @@ public class PostFragment extends Fragment
         mPostClient.toggleThanksAsync(post, new Consumer<Result>() {
             @Override
             public void run(Result result) {
-                Toast.makeText(getActivity(), "Thanks toggled", Toast.LENGTH_LONG).show();
+                Snackbar.make(mRootView,
+                        R.string.thanks_toggle, Snackbar.LENGTH_SHORT)
+                        .show();
                 mAdapter.notifyItemChanged(position);
             }
         });
@@ -397,7 +409,8 @@ public class PostFragment extends Fragment
             final DownloadManager.Request request = new DownloadManager
                     .Request(Uri.parse(a.getAttachmentUrl()))
                     .setAllowedOverRoaming(false)
-                    .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS + "/XDA One/", a.getFileName());
+                    .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS + "/XDA One/", a.getFileName())
+                    .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
             manager.enqueue(request);
         }
     }

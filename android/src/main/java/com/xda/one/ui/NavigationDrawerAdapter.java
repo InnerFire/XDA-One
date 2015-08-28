@@ -91,23 +91,24 @@ public class NavigationDrawerAdapter extends BaseAdapter {
         if (account != null) {
             final String quoteMentionsCount = account.getQuoteCount() + "/" + account
                     .getMentionCount();
-            NAVIGATION_DRAWER_ITEMS.add(new NavigationDrawerItem(R.drawable.ic_nav_account,
-                    R.string.quote_mentions, R.string.user, quoteMentionsCount));
-            NAVIGATION_DRAWER_ITEMS.add(new NavigationDrawerItem(R.drawable.ic_nav_phone,
-                    R.string.my_devices, R.string.user));
-
+            NAVIGATION_DRAWER_ITEMS.add(new NavigationDrawerItem(R.drawable.ic_nav_favorite,
+                    R.string.subscribed, R.string.user));
             NAVIGATION_DRAWER_ITEMS.add(new NavigationDrawerItem(R.drawable.ic_nav_message,
                     R.string.private_messages, R.string.user,
                     String.valueOf(account.getPmCount())));
-
-            NAVIGATION_DRAWER_ITEMS.add(new NavigationDrawerItem(R.drawable.ic_nav_favorite,
-                    R.string.subscribed, R.string.user));
+            NAVIGATION_DRAWER_ITEMS.add(new NavigationDrawerItem(R.drawable.ic_nav_account,
+                    R.string.quote_mentions, R.string.user, quoteMentionsCount));
             NAVIGATION_DRAWER_ITEMS.add(new NavigationDrawerItem(R.drawable.ic_nav_reply,
                     R.string.participated, R.string.user));
+            NAVIGATION_DRAWER_ITEMS.add(new NavigationDrawerItem(R.drawable.ic_nav_phone,
+                    R.string.my_devices, R.string.user));
         }
 
         NAVIGATION_DRAWER_ITEMS.add(new NavigationDrawerItem(R.drawable.ic_nav_search,
                 R.string.search, R.string.other));
+
+        //NAVIGATION_DRAWER_ITEMS.add(new NavigationDrawerItem(R.drawable.ic_nav_settings,
+        //        R.string.settings, R.string.other));
     }
 
     public static class NavigationDrawerItem {

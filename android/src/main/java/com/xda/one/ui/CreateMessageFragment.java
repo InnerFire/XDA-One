@@ -9,14 +9,15 @@ import com.xda.one.auth.XDAAccount;
 import com.xda.one.event.message.MessageSendingFailedEvent;
 import com.xda.one.event.message.MessageSentEvent;
 import com.xda.one.util.AccountUtils;
-
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -132,21 +133,21 @@ public class CreateMessageFragment extends DialogFragment implements TextWatcher
                 boolean sendable = true;
 
                 if (mMessageUsername.getText().length() == 0) {
-                    mMessageUsername.setError("Please enter a username");
+                    mMessageUsername.setError(getString(R.string.enter_username));
                     sendable = false;
                 } else {
                     mMessageUsername.setError(null);
                 }
 
                 if (mMessageTitle.getText().length() == 0) {
-                    mMessageTitle.setError("Please enter a title");
+                    mMessageTitle.setError(getString(R.string.enter_title));
                     sendable = false;
                 } else {
                     mMessageTitle.setError(null);
                 }
 
                 if (mMessageContent.getText().length() == 0) {
-                    mMessageContent.setError("Please enter a message");
+                    mMessageContent.setError(getString(R.string.enter_message));
                     sendable = false;
                 } else {
                     mMessageTitle.setError(null);
@@ -172,6 +173,21 @@ public class CreateMessageFragment extends DialogFragment implements TextWatcher
         });
 
         mMessageContent.addTextChangedListener(this);
+
+        getDialog().setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                if (getDialog() == null)
+                    return;
+
+                DisplayMetrics metrics = getActivity().getResources().getDisplayMetrics();
+
+                int dialogWidth = metrics.widthPixels;
+                int dialogHeight = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+                getDialog().getWindow().setLayout(dialogWidth, dialogHeight);
+            }
+        });
     }
 
     private void sendMessage() {
